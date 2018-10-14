@@ -1,0 +1,12 @@
+package TinhToan;
+
+import java.net.ServerSocket;
+
+public class Server {
+		public static final String IP = "127.0.0.1";
+		public static final int PORT = 2001;
+		
+		private ServerSocket serverSocket;
+		
+		
+}

@@ -1,0 +1,46 @@
+package XuLiChuoi;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Server {
+	private static final int PORT = 2004;
+	private static final String HOST="127.0.0.1";
+	private DatagramSocket serverSocket;
+	
+	public Server(int portHost) {
+		try {
+			serverSocket = new DatagramSocket(portHost);
+			System.out.println("Server is running ...");
+			byte[] receiveData = new byte[1024];
+			byte[] sendData;
+			while (true) {
+				//nhan du lieu
+				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+				
+			}
+			
+		} catch (IOException e) {
+			Logger.getLogger(Server.class.getName()).log(Level.SEVERE,null,e);
+		}
+	}
+	
+	public static void main(String[] args) {
+		new Server(PORT);
+	}
+	
+	private int countWords(String s) {
+		int countWords = 0;
+		String[] arrReceive = s.split("[ ,.]");
+		countWords = arrReceive.length;
+		for(int i = 0; i< arrReceive.length; i++) {
+			if ((arrReceive[i].equals("")) || (arrReceive[i].equals(",")) || (arrReceive[i].equals("."))){ 
+				countWords--; 
+            }
+		}
+		return countWords;
+	}
+}

@@ -1,0 +1,77 @@
+package XuLiChuoi;
+
+import java.awt.Font;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class Client extends JFrame {
+	private static final int PORT = 2004;
+	private static final String HOST="127.0.0.1";
+	
+	JButton btnProcess;
+	JTextField txtStringInput;
+	JTextArea txtStringOutput;
+	JTextField txtChuThuong;
+	JTextField txtChuHoa;
+	JTextField txtSoTu;
+	
+	private DatagramSocket datagramSocket;
+	private InetAddress ipServer;
+	public Client() {
+		GUI();
+		Init();
+	}
+	private void Init() {
+		try {
+			datagramSocket = new DatagramSocket();
+			System.out.println("Start client!");
+			ipServer = InetAddress.getByName(HOST);
+		} catch (SocketException ske) {
+			Logger.getLogger(Client.class.getName()).log(Level.SEVERE,null, ske);
+		} catch (UnknownHostException e) {
+			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
+		} finally {
+			
+		}
+		
+	}
+	private void GUI() {
+		this.setTitle("DoiChuoi_UDP - Trần Hữu Trung - 15T2");
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setBounds(400, 150, 500, 300);
+		this.setLocationRelativeTo(null);
+		this.getContentPane().setLayout(null);
+		
+		JLabel lbNhapChuoi = new JLabel("Nhập chuỗi:");
+		lbNhapChuoi.setFont(new Font("Tahoma", Font.BOLD, 15));
+		lbNhapChuoi.setBounds(20, 25, 110, 24);
+		this.getContentPane().add(lbNhapChuoi);
+		
+		txtStringInput = new JTextField();
+		txtStringInput.setFont(new Font("Tahoma", Font.BOLD, 15));
+		txtStringInput.setBounds(135, 25, 345, 24);
+		this.getContentPane().add(txtStringInput);
+		txtStringInput.setColumns(10);
+		
+		btnProcess = new JButton("Xử lí");
+		btnProcess.setBounds(200, 50, 100, 24);
+		this.getContentPane().add(btnProcess);
+		
+		this.setVisible(true);
+		
+	}
+	public static void main(String[] args) {
+		new Client();
+	}
+}

@@ -1,0 +1,57 @@
+package TinhToan;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+public class Client extends JFrame implements ActionListener {
+	private static Socket socket;
+	private DataInputStream dataInputStream;
+	private DataOutputStream dataOutputStream;
+	public static final String IP = "127.0.0.1";
+	public static final int PORT = 2001;
+	
+	public Client() {
+		GUI();
+		Connect();
+	}
+	
+	public static void main(String[] args) {
+		new Client();
+	}
+
+	private void GUI() {
+		this.setTitle("TCP-TinhToan - Tran Huu Trung - 15T2");
+        this.setResizable(false);
+        this.setLocationRelativeTo(this);
+        
+        this.setBounds(100, 100, 500, 160);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.getContentPane().setLayout(null);
+	}
+
+
+	private void Connect() {
+		try {
+			socket = new Socket(IP, PORT);
+			dataInputStream = new DataInputStream(socket.getInputStream());
+			dataOutputStream = new DataOutputStream(socket.getOutputStream());
+		} catch (IOException io) {
+			JOptionPane.showMessageDialog(this, "Cannot connect to server!", "Error", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
+		}
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+}

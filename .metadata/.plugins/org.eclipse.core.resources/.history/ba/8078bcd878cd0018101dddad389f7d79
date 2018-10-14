@@ -1,0 +1,16 @@
+package ChatRoom;
+
+import java.net.ServerSocket;
+import java.util.ArrayList;
+import java.util.List;
+
+public class Server {
+	private String dataStringFromClient;
+	private boolean isStarted;
+	private ServerSocket serverWithoutUI;
+	List<Client> clientList = new ArrayList<Client>();
+	
+	public Server() {
+		super();
+	}
+}

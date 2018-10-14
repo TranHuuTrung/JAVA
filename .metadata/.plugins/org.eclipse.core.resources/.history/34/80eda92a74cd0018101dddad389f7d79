@@ -1,0 +1,84 @@
+package TinhToan;
+
+import java.awt.Font;
+import java.awt.TextArea;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class Client extends JFrame implements ActionListener {
+	private static Socket socket;
+	private DataInputStream dataInputStream;
+	private DataOutputStream dataOutputStream;
+	public static final String IP = "127.0.0.1";
+	public static final int PORT = 2001;
+	
+	public Client() {
+		GUI();
+		Connect();
+	}
+	
+	public static void main(String[] args) {
+		new Client();
+	}
+
+	private void GUI() {
+		this.setTitle("TCP-TinhToan - Tran Huu Trung - 15T2");
+        this.setResizable(false);
+        this.setLocationRelativeTo(this);
+        
+        this.setBounds(320, 150, 720, 300);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.getContentPane().setLayout(null);
+        
+        JLabel lbNhapBieuThuc = new JLabel("NHẬP BIỂU THỨC:");
+        lbNhapBieuThuc.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbNhapBieuThuc.setBounds(20, 20, 180, 25);
+        this.getContentPane().add(lbNhapBieuThuc);
+        
+        JTextField tfInputExpress = new JTextField();
+        tfInputExpress.setFont(new Font("Tahoma", Font.BOLD, 15));
+        tfInputExpress.setBounds(200, 20, 400, 30);
+        this.getContentPane().add(tfInputExpress);
+        
+        JButton btnProcess = new JButton("TÍNH");
+        btnProcess.setBounds(620, 20, 70, 30);
+        this.getContentPane().add(btnProcess);
+        
+        JLabel lbKetQua = new JLabel("KẾT QUẢ:");
+        lbKetQua.setFont(new Font("Tahoma", Font.BOLD, 15));
+        lbKetQua.setBounds(20, 80, 150, 25);
+        this.getContentPane().add(lbKetQua);
+        
+        this.setVisible(true);
+	}
+
+
+	private void Connect() {
+		try {
+			socket = new Socket(IP, PORT);
+			dataInputStream = new DataInputStream(socket.getInputStream());
+			dataOutputStream = new DataOutputStream(socket.getOutputStream());
+		} catch (IOException io) {
+			JOptionPane.showMessageDialog(this, "Cannot connect to server!", "Error", JOptionPane.INFORMATION_MESSAGE);
+			System.exit(0);
+		}
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+}

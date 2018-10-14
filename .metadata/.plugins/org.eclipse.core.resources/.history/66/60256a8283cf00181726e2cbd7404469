@@ -1,0 +1,30 @@
+package XuLiChuoi;
+
+import java.net.DatagramSocket;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class Client extends JFrame {
+	private static final int PORT = 2004;
+	private static final String IP="127.0.0.1";
+	
+	JButton btnProcess;
+	JTextField txtStringInput;
+	JTextArea txtStringOutput;
+	JTextField txtChuThuong;
+	JTextField txtChuHoa;
+	JTextField txtSoTu;
+	
+	private DatagramSocket datagramSocket;
+	
+	public Client() {
+		GUI();
+		Init();
+	}
+	public static void main(String[] args) {
+		new Client();
+	}
+}

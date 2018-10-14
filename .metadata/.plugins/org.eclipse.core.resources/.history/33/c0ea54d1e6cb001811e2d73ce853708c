@@ -1,0 +1,25 @@
+package XuLiChuoi;
+
+import java.net.ServerSocket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class Server {
+	public static final String IP = "localhost";
+	public static final int PORT = 2000;
+	private ServerSocket serverSocket;
+	
+	public Server(String host, int port) {
+		try {
+			serverSocket = new ServerSocket(port);
+			SocketThread socket = new SocketThread(serverSocket.accept());
+			new Thread(socket).start();
+		} catch (IOException ie) {
+			Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ie);
+		}
+	}
+	
+	public static void main(String[] args) {
+		new Server(IP, PORT);
+	}
+}

@@ -1,0 +1,8 @@
+package XuLiChuoi;
+
+import javax.swing.JFrame;
+
+public class Client extends JFrame {
+	private static final int PORT = 2004;
+	
+}

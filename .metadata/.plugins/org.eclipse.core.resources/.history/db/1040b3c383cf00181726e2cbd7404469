@@ -1,0 +1,48 @@
+package XuLiChuoi;
+
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.UnknownHostException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+
+public class Client extends JFrame {
+	private static final int PORT = 2004;
+	private static final String IP="127.0.0.1";
+	
+	JButton btnProcess;
+	JTextField txtStringInput;
+	JTextArea txtStringOutput;
+	JTextField txtChuThuong;
+	JTextField txtChuHoa;
+	JTextField txtSoTu;
+	
+	private DatagramSocket datagramSocket;
+	
+	public Client() {
+		GUI();
+		Init();
+	}
+	private void Init() {
+		try {
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		} catch (UnknownHostException e) {
+			Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, e);
+		}
+		
+	}
+	private void GUI() {
+		// TODO Auto-generated method stub
+		
+	}
+	public static void main(String[] args) {
+		new Client();
+	}
+}
