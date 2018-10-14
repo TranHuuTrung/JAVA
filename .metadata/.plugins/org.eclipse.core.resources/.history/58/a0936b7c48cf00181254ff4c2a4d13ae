@@ -1,9 +1,0 @@
-package vidu1;
-
-public class vidu {
-	public static void main(String []args) {
-		final int i = 100;
-		byte b = i;
-		System.out.println(b);
-	}
-}

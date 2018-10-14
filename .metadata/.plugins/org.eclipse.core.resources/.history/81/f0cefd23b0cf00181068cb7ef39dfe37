@@ -1,0 +1,24 @@
+package ChatRoom;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.HashSet;
+
+import javax.xml.stream.events.StartDocument;
+
+public class Server extends Thread {
+	public final static int PORT = 2007;
+	private final static int BUFFER = 1024;
+	
+	private DatagramSocket socket;
+	private ArrayList<InetAddress> clientAddress;
+	private ArrayList<Integer> clientPorts;
+	private HashSet<String> existingClients;
+	
+	public static void main(String[] args) {
+		Server server = new Server();
+		StartDocument();
+	}
+}

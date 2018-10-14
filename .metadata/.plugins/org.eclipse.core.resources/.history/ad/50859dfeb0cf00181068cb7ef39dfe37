@@ -1,0 +1,44 @@
+package ChatRoom;
+
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
+public class Server extends Thread {
+	public final static int PORT = 2007;
+	private final static int BUFFER = 1024;
+	
+	private DatagramSocket socket;
+	private ArrayList<InetAddress> clientAddress;
+	private ArrayList<Integer> clientPorts;
+	private HashSet<String> existingClients;
+	
+	public static void main(String[] args) throws IOException{
+		Server server = new Server();
+		server.start();
+	}
+	
+	public Server() throws IOException{
+		socket = new DatagramSocket(PORT);
+		clientAddress = new ArrayList<InetAddress>();
+		clientPorts = new ArrayList<Integer>();
+		existingClients = new HashSet<String>();
+	}
+	
+	public void run() {
+		byte[] buf = new byte[BUFFER];
+		while(true) {
+			try {
+				Arrays.fill(buf, (byte) 0);
+				DatagramPacket packet = new DatagramPacket(buf, buf.length);
+				
+			} catch (Exception e) {
+				System.err.println(e);
+			}
+		}
+	}
+}

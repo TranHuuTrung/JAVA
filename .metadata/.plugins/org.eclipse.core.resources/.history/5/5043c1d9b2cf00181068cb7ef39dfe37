@@ -1,0 +1,10 @@
+package ChatRoom;
+
+import javax.swing.JLabel;
+
+public class Client {
+	static String userName ="";
+	static boolean readyToSend = false;
+	private boolean connected;
+	private JLabel label;
+}

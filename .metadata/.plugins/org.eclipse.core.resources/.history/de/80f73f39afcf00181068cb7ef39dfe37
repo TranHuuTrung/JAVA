@@ -1,0 +1,6 @@
+package ChatRoom;
+
+public class Server extends Thread {
+	public final static int PORT = 2007;
+	
+}

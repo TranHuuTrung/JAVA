@@ -1,8 +1,0 @@
-package vidu1;
-
-public class vidu {
-	public static void main(String []args) {
-		int a = 6, b = 2;
-		System.out.println((a<b)?10:9);
-	}
-}

@@ -49,7 +49,6 @@ public class Client extends JFrame implements ActionListener {
 		serverAndPort.add(new JLabel(""));
 		northPanel.add(serverAndPort);
 
-		
 		label = new JLabel("Nhập tên và bấm login để vào phòng!", SwingConstants.CENTER);
 		northPanel.add(label);
 		tf = new JTextField("Anonymous");
