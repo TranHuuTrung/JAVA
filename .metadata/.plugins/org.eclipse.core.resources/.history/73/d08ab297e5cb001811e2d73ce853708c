@@ -1,9 +1,0 @@
-package XuLiChuoi;
-
-import java.net.ServerSocket;
-
-public class Server {
-	public static final String IP = "localhost";
-	public static final int PORT = 2000;
-	private ServerSocket serverSocket;
-}
