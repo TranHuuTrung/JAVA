@@ -9,7 +9,15 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.rmi.server.Skeleton;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -18,11 +26,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -39,14 +49,225 @@ public class ClientUI extends JFrame {
 		addControls();
 		addEvents();
 	}
+	//Tao connect to server 
+	private Socket connect() throws Exception {
+		//Client tao socket ket noi den server cho phep ket noi o cong 8000
+		String addressIP;
+		addressIP = txtNhapIP.getText();
+		Socket socket = null;
+		socket = new Socket(addressIP, 8000);
+		System.out.println(socket);
+		System.out.println("Client created!");
+		return socket;
+	}
+	
+	private String connectToServer() throws Exception{
+		Socket socket = connect();
+		String ketqua = null;
+		try {
+			DataOutputStream dataGuiServer = new DataOutputStream(socket.getOutputStream());
+			DataInputStream dataNhanServer = new DataInputStream(socket.getInputStream());
+			dataGuiServer.writeUTF("showAll");
+			System.out.println("ConnectToServer() .. gui data len Server");
+			ketqua = dataNhanServer.readUTF();
+			System.out.println("ConnectToServer() .. nhan data tu server, kq = "+ ketqua);
+			socket.close();
+		} catch (Exception e) {
+			System.out.println("CoonectToServer().. Loi gui, nhan data tu client");
+			socket.close();
+		}
+		return ketqua;
+	}
+	
+	public boolean kiemTraThongTin() {
+		Check check = new Check();
+		if(!check.checkID(txtNhapMaSV.getText())) {
+			String erorrĐinhdangID = "Nhập sai định dạng mã sinh viên \n Vui lòng nhập lại chính xác!";
+			JOptionPane.showMessageDialog(this, erorrĐinhdangID, "Lỗi định dạng", JOptionPane.ERROR_MESSAGE);
+			txtNhapMaSV.requestFocus();
+			return false;
+		} else if(!check.check_hoten(txtNhapTenSV.getText())) {
+			String errorDinhDangTen = "Bạn nhập tên sinh viên chưa đúng định dạng...";
+			JOptionPane.showMessageDialog(this, errorDinhDangTen , "Lỗi định dạng", JOptionPane.ERROR_MESSAGE);
+	        txtNhapTenSV.requestFocus();
+	        return false;
+		}
+		//them dieu kiem nhap diem
+		return true;
+	}
 
 	private void addEvents() {
 		btnThoat.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				int ret = JOptionPane.showConfirmDialog(null, 
+						"Bạn có chắc chắn muốn thoát phần mềm không?",
+						"Xác nhận thoát", JOptionPane.YES_NO_OPTION);
+				if(ret == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 			}
 		});
+		
+		btnReset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ResetForm();
+			}
+		});
+		
+		btnTimKiem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(!kiemTraThongTin()) { return;}
+				//kiem tra thong tin sinh vien , masv khong duo rong
+				if(!txtNhapMaSV.getText().trim().equals("") || !txtNhapTenSV.getText().trim().equals("") || !txtNhapDiem.getText().trim().equals("")) {
+					try {
+						acceptedClient(txtNhapMaSV.getText(), txtNhapTenSV.getText(), txtNhapDiem.getText());
+					} catch (Exception e2) {
+						Logger.getLogger(ClientUI.class.getName());
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Vui lòng nhập thông tin tìm kiếm!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		
+		btnKetNoiIP.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Check check = new Check();
+				if (!check.check_IP(txtNhapIP.getText())) {
+					JOptionPane.showMessageDialog(null, "Nhập địa chỉ IP bị sai...\n Yêu cầu nhập lại dạng xxx.xxx.x.x", "Lỗi định dạng địa chỉ IP", JOptionPane.ERROR_MESSAGE);
+					txtNhapIP.setText("");
+					txtNhapIP.requestFocus();
+				} else {
+					try {
+						String traloi = connectToServer();
+						xuatDataRaBang(traloi);
+						if (null != traloi && !traloi.equals("DBError")) {
+							JOptionPane.showMessageDialog(null, "Chúc mừng bạn đã kết nối thành công!", "Kết nối thành công", JOptionPane.INFORMATION_MESSAGE);
+							btnTimKiem.setEnabled(true);
+							btnXemTatCa.setEnabled(true);
+							txtNhapIP.setEditable(false);
+							btnKetNoiIP.setEnabled(false);
+						}
+					} catch (Exception e2) {
+						System.out.println("Ket noi that bai");
+						JOptionPane.showMessageDialog(null, "Kết nối đến server thất bại", "Lỗi kết nối", JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		
+		btnXemTatCa.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				//xem tat ca danh sach
+				String traloi = null;
+				try {
+					traloi = connectToServer();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+					traloi = "Không thể xem tất cả";
+					JOptionPane.showMessageDialog(null, "Không thể xem toàn bộ danh sách", "Lỗi xem dữ liệu", JOptionPane.ERROR_MESSAGE);
+				}
+				xuatDataRaBang(traloi);
+			}
+		});
+		
+		tableXemDanhSach.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				XuLiXemChiTiet();
+			}
+		});
+	}
+	public void ResetForm() {
+		txtNhapMaSV.setText("");
+		txtNhapTenSV.setText("");
+		txtNhapDiem.setText("");
+	}
+	//xem 
+	public void acceptedClient(String masv, String tensv, String diem) throws Exception {
+		//1.client: tao socket ket noi den server cho phep ket noi o cong 8080
+		Socket sk = connect();
+        String search = "search";
+        DataOutputStream dataGui = new DataOutputStream(sk.getOutputStream());
+        DataInputStream dataNhan = new DataInputStream(sk.getInputStream());
+        
+        dataGui.writeUTF(masv + "#" + tensv + "#" + diem + "#" + search);
+        System.out.println("AcceptedClient : "+masv+" vs "+tensv+" vs "+diem);
+        String result = dataNhan.readUTF();
+        System.out.println("Ket qua search = "+result);
+        sk.close();
+        xuatDataRaBang(result);
+	}
+	private void xuatDataRaBang(String result) {
+		//xuat ket qua ra bang
+		DefaultTableModel dm = (DefaultTableModel) tableXemDanhSach.getModel();
+		dm.getDataVector().clear();
+		if (null != result && !result.isEmpty() && !result.equals("DBError") && !result.equalsIgnoreCase("OK")) {
+			String[] students = result.split(";");
+			if(null != students && students.length != 0) {
+				for (int i = 0; i < students.length; i++) {
+					String student = students[i];
+					if (null != student && !student.isEmpty()) {
+						String[] parts = student.split(",");
+						dm.addRow(new Object[] {parts[0], parts[1], parts[2], parts[3]});
+					}
+				}
+			}
+		} else {
+			dm.addRow(new Object[] {"Không tìm thấy kết quả!", "", "", ""});
+		}
+		
+	}
+
+	private void XuLiXemChiTiet() {
+		int rowSelected = tableXemDanhSach.getSelectedRow();
+		if (rowSelected == -1) return;
+		String msg = "";
+		String masv = "Mã Sinh Viên: ";
+			masv+=tableXemDanhSach.getValueAt(rowSelected, 0)+"\n";
+			msg+=masv;
+		String tensv = "Tên Sinh Viên: ";
+			tensv+=tableXemDanhSach.getValueAt(rowSelected, 1)+"\n";
+			msg+=tensv;
+		String gioitinh = "Giới tính: ";
+			gioitinh+=tableXemDanhSach.getValueAt(rowSelected, 2)+"\n";
+			msg+=gioitinh;
+		String diemdacsnm = "Điểm Đồ án CSNM: ";
+			diemdacsnm+=tableXemDanhSach.getValueAt(rowSelected, 3)+"\n";
+			msg+=diemdacsnm;
+		if(tableXemDanhSach.getValueAt(rowSelected, 0) == "Không tìm thấy kết quả!") {
+			JOptionPane.showMessageDialog(null, "Không tìm thấy dữ liệu!", "Thông tin chi tiết",JOptionPane.ERROR_MESSAGE);
+		} else {
+			ImageIcon icon;
+			if(tableXemDanhSach.getValueAt(rowSelected, 2).toString().trim().toLowerCase().equals("nam")) {
+				icon = new ImageIcon(getClass().getResource("/images/man.png"));
+			} else {
+				icon = new ImageIcon(getClass().getResource("/images/woman.png"));
+			}
+			JOptionPane.showMessageDialog(null, msg, "Thông tin chi tiết",JOptionPane.INFORMATION_MESSAGE, icon);
+		}
 	}
 
 	private void addControls() {
@@ -131,9 +352,9 @@ public class ClientUI extends JFrame {
 		
 		JLabel lbNhapDiem = new JLabel("Nhập điểm");
 		lbNhapDiem.setIcon(new ImageIcon(getClass().getResource("/images/calculate.png")));
-		txtNhapTenSV = new JTextField(15);
+		txtNhapDiem = new JTextField(15);
 		pnNhapDiem.add(lbNhapDiem);
-		pnNhapDiem.add(txtNhapTenSV);
+		pnNhapDiem.add(txtNhapDiem);
 		lbNhapDiem.setPreferredSize(lbNhapTenSV.getPreferredSize());
 		
 		Border borderThongTinTimKiem = BorderFactory.createLineBorder(Color.BLUE);
@@ -149,8 +370,10 @@ public class ClientUI extends JFrame {
 		pnHanhDong.setLayout(new GridLayout(4,1, 5, 5));
 		btnTimKiem = new JButton("Tìm kiếm");
 		btnTimKiem.setIcon(new ImageIcon(getClass().getResource("/images/search2.png")));
+		btnTimKiem.setEnabled(false);
 		btnXemTatCa = new JButton("Xem tất cả");
 		btnXemTatCa.setIcon(new ImageIcon(getClass().getResource("/images/Tasks-icon.png")));
+		btnXemTatCa.setEnabled(false);
 		btnReset = new JButton("Reset");
 		btnReset.setIcon(new ImageIcon(getClass().getResource("/images/reset.png")));
 		btnThoat = new JButton("Thoát");
@@ -172,21 +395,14 @@ public class ClientUI extends JFrame {
 		defaultTable = new DefaultTableModel();
 		defaultTable.addColumn("Mã số sinh viên");
 		defaultTable.addColumn("Tên sinh viên");
-		defaultTable.addColumn("Điểm DACSNM");
-		defaultTable.addColumn("Điểm LTM");
-		defaultTable.addColumn("Điểm CTD");
+		defaultTable.addColumn("Giới tính");
+		defaultTable.addColumn("Điểm Đồ án CSNM");
 		//them data
-		String data1[] = {"102150142", "Trần Hữu Trung", "10", "10","10"};
-		for (int i = 0; i < 50; i++) {
-			defaultTable.addRow(data1);
-		}
-		Vector<String> data2 = new Vector<String>();
-		data2.add("102150142");
-		data2.add("Trần Hữu Hiếu");
-		data2.add("10");
-		data2.add("10");
-		data2.add("10");
-		defaultTable.addRow(data2);
+//		String data3[] = {"102170190", "Trần Thị Thu", "Nữ" ,"10"};
+//		defaultTable.addRow(data3);
+//		Vector<String> data2 = new Vector<String>();
+//		data2.add("102150142");
+//		defaultTable.addRow(data2);
 		tableXemDanhSach = new JTable(defaultTable) {
 			public boolean isCellEditable(int rowIndex, int colIndex) {
 				  return false; //Disallow the editing of any cell
