@@ -13,15 +13,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Server {
-	public static final int PORT = 2006;
+	public static final int PORT = 6000;
 	private DatagramSocket datagramSocket;
-	byte[] receiveData = new byte[1024];
-	byte[] sendData;
 	public Server(int port) {
 		try {
-			datagramSocket = new DatagramSocket(PORT);
+			datagramSocket = new DatagramSocket(port);
 			System.out.println("Server is running ...");
 			while (true) {
+				byte[] receiveData = new byte[1024];
 				//Nhan du lieu
 				DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
 				datagramSocket.receive(receivePacket);
@@ -35,7 +34,7 @@ public class Server {
 				float result = TinhBieuThuc.caculate(mess);
 				//tao goi tin gui
 				String stringSend = String.valueOf(result);
-				sendData = stringSend.getBytes();
+				byte[] sendData = stringSend.getBytes();
 				//tao 1 datagramPacket chua du lieu va dia chi may nhan
 				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, addClient, portClient);
 				datagramSocket.send(sendPacket);

@@ -54,6 +54,7 @@ class SocketThread implements Runnable{
 			DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 			while (true) {
 				String receive = dis.readUTF();
+				System.out.println(TinhBieuThuc.toPostFix(receive));
 				float result = TinhBieuThuc.caculate(receive);
 				dos.writeUTF(String.valueOf(result));
 			}
@@ -125,7 +126,7 @@ class TinhBieuThuc {
         return res;
     }
   //infix to postfix
-    private static String toPostFix(String exp) {
+    public static String toPostFix(String exp) {
         String postFix = "";
         stack.clear();
         String token = "";

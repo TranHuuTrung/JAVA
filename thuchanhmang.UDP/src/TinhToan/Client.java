@@ -18,16 +18,14 @@ import javax.swing.JTextField;
 
 public class Client extends JFrame implements ActionListener{
 	private static final long serialVersionUID = 1L;
-	private static final int PORT = 2006;
+	private static final int PORT = 6000;
 	private static final String IP = "127.0.0.1";
-	public static byte[] dataSend;
-	public static byte[] dataReceive = new byte[1024];
 	JButton btnProcess;
 	JTextField txtStringInput;
 	JTextField txtStringOutput;
 	
-	private InetAddress addressServer;
-	private DatagramSocket datagramSocket;
+	public InetAddress addressServer;
+	public DatagramSocket datagramSocket;
 	
 	public Client() {
 		GUI();
@@ -88,15 +86,19 @@ public class Client extends JFrame implements ActionListener{
 			try {
 				String stringSend = txtStringInput.getText();
 				//gui data cho Server
-				dataSend = stringSend.getBytes();
-				DatagramPacket sendPacket = new DatagramPacket(dataSend, dataSend.length, addressServer, PORT);
-				datagramSocket.send(sendPacket);
-				//nhan response tu server
-				DatagramPacket receivePacket = new DatagramPacket(dataReceive, dataReceive.length);
-				datagramSocket.receive(receivePacket);
-				//hien thi ket qua
-				String ketqua = new String(receivePacket.getData(), 0, receivePacket.getLength());
-				txtStringOutput.setText(ketqua);
+					byte[] dataSend = stringSend.getBytes();
+					DatagramPacket sendPacket = new DatagramPacket(dataSend, dataSend.length, addressServer, PORT);
+					System.out.println(addressServer);
+					datagramSocket.send(sendPacket);
+					
+					System.out.println(sendPacket);
+					//nhan response tu server
+					byte[] dataReceive = new byte[1024];
+					DatagramPacket receivePacket = new DatagramPacket(dataReceive, dataReceive.length);
+					datagramSocket.receive(receivePacket);
+					//hien thi ket qua
+					String ketqua = new String(receivePacket.getData(), 0, receivePacket.getLength());
+					txtStringOutput.setText(ketqua);
 			} catch (IOException io) {
 				Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, io);
 				JOptionPane.showMessageDialog(this, "Can't send to server!", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -106,15 +108,11 @@ public class Client extends JFrame implements ActionListener{
 	
 	private void Connect() {
 		try {
-			datagramSocket = new DatagramSocket();
+			datagramSocket = new DatagramSocket();	
+			System.out.println("Client started ");
 			addressServer = InetAddress.getByName(IP);
-			
 		} catch (IOException ioe) {
 			JOptionPane.showMessageDialog(this, "Cann't connect to server!", "Error", JOptionPane.INFORMATION_MESSAGE);
-		} finally {
-			if(datagramSocket != null) {
-				datagramSocket.close();
-			}
-		}
+		} 
 	}
 }

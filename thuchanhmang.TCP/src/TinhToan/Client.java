@@ -17,9 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class Client extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	private static Socket socket;
 	private DataInputStream dataInputStream;

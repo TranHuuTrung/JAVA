@@ -1,32 +1,15 @@
 package com.huutrung.client;
 
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- *
- * @author HB
- */
 public class Check {
 
     public Check() {
     }
-
     public static boolean checkName(String n) {
         return true;
-//        if (n == null || n.length() == 0) {
-//            return false;
-//        } else {
-//            String strPattern = "[^a-z ]";
-//            Pattern p;
-//            Matcher m;
-//            int flag = Pattern.CASE_INSENSITIVE;
-//            p = Pattern.compile(strPattern, flag);
-//            m = p.matcher(n);
-//            return !m.find();
-//        }
+        //them dieu kien check
     }
 
     public static boolean check_IP(String n) {
@@ -34,10 +17,7 @@ public class Check {
             return false;
         } else {
             String strPattern = "[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}+\\.[0-9]{1,3}";
-
-            //String strPattern = "[^0-9]{1,3}+\\.[^0-9]{1,3}+\\.[^0-9]{1,3}+\\.[^0-9]{1,3}";
-            //String strPattern = "[^0-9]+\\.[^0-9]+\\.[^0-9]+\\.[^0-9]+\\.[^0-9]";  //co dang 1.1.1.1
-            //String strPattern = "[^0-9][^.]";
+//        	String strPattern = "(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)";
             Pattern p;
             Matcher m;
             int flag = Pattern.CASE_INSENSITIVE;

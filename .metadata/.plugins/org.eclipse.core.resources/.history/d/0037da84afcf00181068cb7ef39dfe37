@@ -1,7 +1,0 @@
-package ChatRoom;
-
-public class Server extends Thread {
-	public final static int PORT = 2007;
-	private final static int BUFFER = 1024;
-	
-}
