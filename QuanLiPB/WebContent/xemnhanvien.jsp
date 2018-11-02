@@ -9,12 +9,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Quản Lý Phòng Ban</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 
 </head>
@@ -103,14 +101,14 @@
 										<div class="btn-group">
 											<a href="detail.php?id=<?php echo $arrayPhong['id'] ?>"
 												class="btn btn-default btn-xs"><i
-												class="glyphicon glyphicon-eye-open"></i></a> <a
+												class="fa fa-eye"></i></a> <a
 												href="EditServlet?type=NhanVien&id=<%=item.getMa() %>"
 												class="btn btn-default btn-xs"><i
-												class="glyphicon glyphicon-edit"></i></a> <a
+												class="fa fa-edit"></i></a> <a
 												href="delete.php?id=<?php echo $arrayPhong['id']; ?>"
 												class="btn btn-danger btn-xs"
 												onclick="return confirm('Are you sure?')"><i
-												class="glyphicon glyphicon-trash"></i></a>
+												class="fa fa-trash"></i></a>
 										</div>
 
 									</td>

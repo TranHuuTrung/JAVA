@@ -10,13 +10,12 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="About"><img src="img/profile.png"
+			<a class="navbar-brand" href="./index.jsp"><img src="img/profile.png"
 				alt="" style="width: 25px" class="img-circle"></a>
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li><a href="Home">Home</a></li>
-				<li><a href="About">About</a></li>
+				<li><a href="./index.jsp">Home</a></li>
 				<li><a href="#">Projects</a></li>
 				<li><a href="#">Contact</a></li>
 				<%
@@ -40,15 +39,14 @@
 					if (user == null) {						
 				%>
 				<li><a href="register.jsp" style="width: auto;"><span
-						class="glyphicon glyphicon-log-in"></span> Register</a></li>
-				<li><a href="login.jsp" style="width: auto;"><span
-						class="glyphicon glyphicon-log-in"></span> Login</a></li>
+						class="fa fa-sign-in"></span> Register</a></li>
+				<li><a href="login.jsp" style="width: auto;"><i class="fa fa-sign-in"></i> Login</a></li>
 				<%
 					} else {
 				%>
 				<li><a href="profile.jsp" style="width: auto;"> <%=user.getEmail()%></a></li>
-				<li><a href="logout.jsp" style="width: auto;"><span
-						class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+				<li><a href="logout.jsp" style="width: auto;"><i
+						class="fa fa-sign-out"></i> Logout</a></li>
 				<%
 					}
 				%>

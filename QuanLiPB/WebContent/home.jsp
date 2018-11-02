@@ -7,12 +7,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Quản Lý Phòng Ban</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </head>
 <body>
 	<%
@@ -73,9 +71,9 @@
 											<td class="text-center">
 												
 												<div class="btn-group">
-													<a href="details.php?id=<?php echo $arrayPhong['id'] ?>" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-eye-open"></i></a>
-													<a href="edit.php?id=<?php echo $arrayPhong['id'];?>" class="btn btn-default btn-xs"><i class="glyphicon glyphicon-edit"></i></a>
-													<a href="delete.php?id=<?php echo $arrayPhong['id']; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"><i class="glyphicon glyphicon-trash"></i></a>
+													<a href="details.php?id=<?php echo $arrayPhong['id'] ?>" class="btn btn-default btn-xs"><i class="fa fa-eye"></i></a>
+													<a href="edit.php?id=<?php echo $arrayPhong['id'];?>" class="btn btn-default btn-xs"><i class="fa fa-pencil"></i></a>
+													<a href="delete.php?id=<?php echo $arrayPhong['id']; ?>" class="btn btn-danger btn-xs" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i></a>
 												</div>
 												
 											</td>
@@ -89,9 +87,7 @@
 									<ul class="pagination">
 										<li class="disabled"><span>«</span></li>
 										<li class="active"><span>1</span></li>
-										<li><a href="http://danang2.local/admin/tours?page=2">2</a></li>
-										<li><a href="http://danang2.local/admin/tours?page=3">3</a></li>
-										<li><a href="http://danang2.local/admin/tours?page=2" rel="next">»</a></li>
+										<li><a href="#" rel="next">»</a></li>
 									</ul>
 								</div>
 							</div>

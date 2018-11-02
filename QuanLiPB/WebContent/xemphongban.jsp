@@ -10,21 +10,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Quản Lý Phòng Ban</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script
-	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css"></link>
+<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 
 </head>
 <body>
@@ -58,14 +47,14 @@
 		<!-- Container -->
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<strong>Xem Nhân Viên</strong>
+				<strong>Xem phòng ban</strong>
 			</div>
 			<div class="panel-body">
 				<form method="get" action="" class="form">
 					<div class="col-xs-3">
 						<div class="form-group">
 							<select name="searchType" class="form-control">
-								<option value="staff">Nhân viên</option>
+								<option value="staff">Phòng ban</option>
 							</select>
 						</div>
 					</div>
@@ -104,14 +93,14 @@
 												title="Edit">
 												<button class="btn btn-primary btn-xs" data-title="Edit"
 													data-toggle="modal" data-target="#edit">
-													<span class="glyphicon glyphicon-pencil"></span>
+													<span class="fa fa-pencil"></span>
 												</button>
 											</p></td>
 										<td colspan="1"><p data-placement="top" data-toggle="tooltip"
 												title="Delete">
 												<button class="btn btn-danger btn-xs" data-title="Delete"
 													data-toggle="modal" data-target="#delete">
-													<span class="glyphicon glyphicon-trash"></span>
+													<span class="fa fa-trash"></span>
 												</button>
 											</p></td>
 									</tr>
@@ -151,7 +140,7 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							<span class="fa fa-remove" aria-hidden="true"></span>
 						</button>
 						<h4 class="modal-title custom_align" id="Heading">Edit Your
 							Detail</h4>
@@ -172,7 +161,7 @@
 					<div class="modal-footer ">
 						<button type="button" class="btn btn-warning btn-lg"
 							style="width: 100%;">
-							<span class="glyphicon glyphicon-ok-sign"></span> Update
+							<span class="fa fa-check"></span> Update
 						</button>
 					</div>
 				</div>
@@ -187,23 +176,23 @@
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal"
 							aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+							<span class="fa fa-remove" aria-hidden="true"></span>
 						</button>
 						<h4 class="modal-title custom_align" id="Heading">Delete this
 							</h4>
 					</div>
 					<div class="modal-body">
 						<div class="alert alert-danger">
-							<span class="glyphicon glyphicon-warning-sign"></span> Are you
+							<span class="fa fa-warning"></span> Are you
 							sure you want to delete this Record?
 						</div>
 					</div>
 					<div class="modal-footer ">
 						<button type="button" class="btn btn-success">
-							<span class="glyphicon glyphicon-ok-sign"></span> Yes
+							<span class="fa fa-check"></span> Yes
 						</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">
-							<span class="glyphicon glyphicon-remove"></span> No
+							<span class="fa fa-remove"></span> No
 						</button>
 					</div>
 				</div>

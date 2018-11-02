@@ -16,6 +16,7 @@ public class Server {
 	public Server(String host, int port) throws IOException {
 		try {
 			serverSocket = new ServerSocket(port);
+			System.out.println("Server started!");
 			while (true) {
 				try {
 					SocketThread socket = new SocketThread(serverSocket.accept());
@@ -26,11 +27,7 @@ public class Server {
 			}
 		} catch (IOException ie) {
 			Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ie);
-		} finally {
-			if( serverSocket != null) {
-				serverSocket.close();
-			}
-		}
+		} 
 	}
 	
 	public static void main(String[] args) throws IOException {
