@@ -377,7 +377,7 @@ public class ClientUI extends JFrame {
 		btnReset = new JButton("Reset");
 		btnReset.setIcon(new ImageIcon(getClass().getResource("/images/reset.png")));
 		btnThoat = new JButton("Thoát");
-		btnThoat.setIcon(new ImageIcon(getClass().getResource("/images/system_log_out.png")));
+		btnThoat.setIcon(new ImageIcon(getClass().getResource("/images/log_out.png")));
 		
 		pnHanhDong.add(btnTimKiem);
 		pnHanhDong.add(btnXemTatCa);

@@ -1,4 +1,4 @@
-package TCP_TinhBieuThuc;
+package UDP_TinhBieuThuc;
 
 import java.util.List;
 import java.util.Stack;
@@ -177,7 +177,7 @@ public class XuLiTinhToan {
         return result;
     }
     //tinh toan
-    public static float caculate(String infix) {
+    static float caculate(String infix) {
    	    String resInfix = "";
    	    resInfix = refine(infix);
         String postFix = toPostFix(resInfix);
