@@ -4,11 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.DataInputStream;
@@ -16,6 +19,10 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.rmi.server.Skeleton;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.Vector;
 import java.util.logging.Logger;
 
@@ -39,13 +46,17 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
+import TestAutocomplete.connectDB;
+
 public class ClientUI extends JFrame {
 	JTextField txtNhapIP, txtNhapMaSV, txtNhapTenSV, txtNhapDiem;
 	JButton btnKetNoiIP, btnTimKiem, btnXemTatCa, btnReset, btnThoat;
 	DefaultTableModel defaultTable;
 	JTable tableXemDanhSach;
+	ArrayList<String> name = new ArrayList<>();
 	public ClientUI (String title) {
 		super(title);
+		DBName();
 		addControls();
 		addEvents();
 	}
@@ -151,6 +162,9 @@ public class ClientUI extends JFrame {
 							btnXemTatCa.setEnabled(true);
 							txtNhapIP.setEditable(false);
 							btnKetNoiIP.setEnabled(false);
+							txtNhapTenSV.setEditable(true);
+							txtNhapMaSV.setEditable(true);
+							txtNhapDiem.setEditable(true);
 						}
 					} catch (Exception e2) {
 						System.out.println("Ket noi that bai");
@@ -199,13 +213,75 @@ public class ClientUI extends JFrame {
 				XuLiXemChiTiet();
 			}
 		});
+		txtNhapTenSV.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_BACK_SPACE:
+					break;
+				case KeyEvent.VK_ENTER:
+					txtNhapTenSV.setText(txtNhapTenSV.getText());
+					break;
+				default:
+					EventQueue.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							String txt = txtNhapTenSV.getText();
+							autoComplete(txt);
+						}
+					});
+				}
+			}
+		});
+	}
+	public void DBName() {
+		try {
+			Connection connects = new com.huutrung.server.connectDB().connDB();
+			Statement stm = connects.createStatement();
+			String sql = "select * from DiemThi";
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				String TenSV = rs.getString("TenSV");
+				name.add(TenSV);
+			}
+			rs.close();
+			stm.close();
+			connects.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void autoComplete(String txt) {
+		String complete="";
+		int start = txt.length();
+		int last = txt.length();
+		int a;
+		for (a = 0; a < name.size(); a++) {
+			if (name.get(a).toLowerCase().toString().startsWith(txt.toLowerCase())) {
+				complete = name.get(a).toString();
+				last = complete.length();
+				break;
+			}
+		}
+		if(last>start) {
+			txtNhapTenSV.setText(complete);
+			txtNhapTenSV.setCaretPosition(last);
+			txtNhapTenSV.moveCaretPosition(start);
+		}
 	}
 	public void ResetForm() {
 		txtNhapMaSV.setText("");
 		txtNhapTenSV.setText("");
 		txtNhapDiem.setText("");
 	}
-	//xem 
+	//tim kiem
 	public void acceptedClient(String masv, String tensv, String diem) throws Exception {
 		//1.client: tao socket ket noi den server cho phep ket noi o cong 8080
 		Socket sk = connect();
@@ -238,7 +314,6 @@ public class ClientUI extends JFrame {
 		} else {
 			dm.addRow(new Object[] {"Không tìm thấy kết quả!", "", "", ""});
 		}
-		
 	}
 
 	private void XuLiXemChiTiet() {
@@ -301,6 +376,7 @@ public class ClientUI extends JFrame {
 		JLabel lbNhapIp = new JLabel("Nhập địa chỉ IP");
 		txtNhapIP = new JTextField(15);
 		txtNhapIP.setHorizontalAlignment(SwingConstants.CENTER);
+		txtNhapIP.setText("127.000.0.1");
 		btnKetNoiIP = new JButton("Kết nối");
 		pnKetNoiServer.add(lbNhapIp);
 		pnKetNoiServer.add(txtNhapIP);
@@ -328,6 +404,7 @@ public class ClientUI extends JFrame {
 		
 		JLabel lbNhapMaSV = new JLabel("Nhập mã sinh viên");
 		txtNhapMaSV = new JTextField(15);
+		txtNhapMaSV.setEditable(false);
 		lbNhapMaSV.setIcon(new ImageIcon(getClass().getResource("/images/User-32x32.png")));
 		pnNhapMaSV.add(lbNhapMaSV);
 		pnNhapMaSV.add(txtNhapMaSV);
@@ -340,6 +417,7 @@ public class ClientUI extends JFrame {
 		JLabel lbNhapTenSV = new JLabel("Nhập tên sinh viên    ");
 		lbNhapTenSV.setIcon(new ImageIcon(getClass().getResource("/images/sign-up-icon.png")));
 		txtNhapTenSV = new JTextField(15);
+		txtNhapTenSV.setEditable(false);
 		pnNhapTenSV.add(lbNhapTenSV);
 		pnNhapTenSV.add(txtNhapTenSV);
 		lbNhapMaSV.setPreferredSize(lbNhapTenSV.getPreferredSize());
@@ -353,6 +431,7 @@ public class ClientUI extends JFrame {
 		JLabel lbNhapDiem = new JLabel("Nhập điểm");
 		lbNhapDiem.setIcon(new ImageIcon(getClass().getResource("/images/calculate.png")));
 		txtNhapDiem = new JTextField(15);
+		txtNhapDiem.setEditable(false);
 		pnNhapDiem.add(lbNhapDiem);
 		pnNhapDiem.add(txtNhapDiem);
 		lbNhapDiem.setPreferredSize(lbNhapTenSV.getPreferredSize());

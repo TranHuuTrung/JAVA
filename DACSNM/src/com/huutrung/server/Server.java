@@ -9,6 +9,7 @@ import java.security.PublicKey;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Server {
@@ -67,6 +68,7 @@ class ClientThreadHandler extends Thread{
 			arr = st.split("#");
 			try {
 				students = xemData();
+//				students = allNameStudents();
 			} catch (Exception e) {
 				result = "DBError";
 				System.out.println("Loi connect database: "+e);
@@ -101,7 +103,7 @@ class ClientThreadHandler extends Thread{
 			e.printStackTrace();
 		}
 	}	
-	//Tao coonect to database
+	//Tao connect to database
 	public void ConnectData() throws Exception{
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -110,6 +112,25 @@ class ClientThreadHandler extends Thread{
 		} catch (Exception e) {
 			System.out.println("Khong nap duoc Driver "+ e);
 		}
+	}
+	//get all name of students
+	public String allNameStudents() throws Exception {
+		ConnectData();
+		sql = "SELECT * FROM `DiemThi` ";
+		rs = stm.executeQuery(sql);
+		StringBuilder students = new StringBuilder();
+		while (rs.next()) {
+			String TenSV = rs.getString("TenSV");
+			if (TenSV == null) {
+				TenSV ="";
+			}
+			
+			String student = TenSV+";";
+			students.append(student);
+		}
+		System.out.println("allNameStudents() = "+ students.toString());
+		conn.close();
+		return students.toString();
 	}
 	//Search Data
 	public String searchData(String masv, String tensv, String diem) throws Exception{
