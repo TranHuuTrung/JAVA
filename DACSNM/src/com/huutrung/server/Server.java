@@ -67,8 +67,13 @@ class ClientThreadHandler extends Thread{
 			System.out.println("Client gui: "+ st);
 			arr = st.split("#");
 			try {
-				students = xemData();
-//				students = allNameStudents();
+//				students = xemData();
+				if("allNameFromServer".equals(arr[0])) {
+					students = allNameStudents();
+				} else {
+					students = xemData();
+				}
+				
 			} catch (Exception e) {
 				result = "DBError";
 				System.out.println("Loi connect database: "+e);
@@ -135,6 +140,9 @@ class ClientThreadHandler extends Thread{
 	//Search Data
 	public String searchData(String masv, String tensv, String diem) throws Exception{
 		ConnectData();
+		masv.trim();
+		tensv.trim();
+		diem.trim();
 		sql = "SELECT * FROM `DiemThi` WHERE MaSV LIKE '%"+masv+"%' AND TenSV LIKE '%"+tensv+"%' AND Diem LIKE '%"+diem+"%'";
 		System.out.println("SQL: "+sql);
 		rs = stm.executeQuery(sql);

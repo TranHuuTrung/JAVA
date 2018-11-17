@@ -1,0 +1,44 @@
+body{
+	background-image: url("../images/paper.gif");
+}
+.header{
+	background: #00fdfd;
+}
+.content_header{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+.menu{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-end;
+	background-color: #efefef;
+}
+.menu ul {
+	list-style: none;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+.menu ul li{
+	float: left;
+	margin-right: 30px;
+}
+.menu ul li a:hover, .menu ul li a:focus{
+	text-decoration: none;
+}
+.input_form{
+	margin: 10px;
+}
+.copyright{
+	background: #b2b2b2;
+	height: 30px;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	bottom: 0;
+	left: 0;
+	right: 0;
+}

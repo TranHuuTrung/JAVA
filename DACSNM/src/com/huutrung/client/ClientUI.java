@@ -56,7 +56,7 @@ public class ClientUI extends JFrame {
 	ArrayList<String> name = new ArrayList<>();
 	public ClientUI (String title) {
 		super(title);
-		DBName();
+		//DBName();
 		addControls();
 		addEvents();
 	}
@@ -89,7 +89,23 @@ public class ClientUI extends JFrame {
 		}
 		return ketqua;
 	}
-	
+	private String allNameFromServer() throws Exception{
+		Socket socket = connect();
+		String ketqua = null;
+		try {
+			DataOutputStream dataGuiServer = new DataOutputStream(socket.getOutputStream());
+			DataInputStream dataNhanServer = new DataInputStream(socket.getInputStream());
+			dataGuiServer.writeUTF("allNameFromServer");
+			System.out.println("ConnectToServer() .. gui data len Server");
+			ketqua = dataNhanServer.readUTF();
+			System.out.println("ConnectToServer() .. nhan data tu server, kq = "+ ketqua);
+			socket.close();
+		} catch (Exception e) {
+			System.out.println("CoonectToServer().. Loi gui, nhan data tu client");
+			socket.close();
+		}
+		return ketqua;
+	}	
 	public boolean kiemTraThongTin() {
 		Check check = new Check();
 		if(!check.checkID(txtNhapMaSV.getText())) {
@@ -154,8 +170,14 @@ public class ClientUI extends JFrame {
 					txtNhapIP.requestFocus();
 				} else {
 					try {
-						String traloi = connectToServer();
-						xuatDataRaBang(traloi);
+//						String traloi = connectToServer();
+						String traloi = allNameFromServer();
+						String[] Allname = traloi.split(";");
+						for (int i = 0; i < Allname.length; i++) {
+							name.add(Allname[i]);
+						}
+//						System.out.println(traloi);
+//						xuatDataRaBang(traloi);
 						if (null != traloi && !traloi.equals("DBError")) {
 							JOptionPane.showMessageDialog(null, "Chúc mừng bạn đã kết nối thành công!", "Kết nối thành công", JOptionPane.INFORMATION_MESSAGE);
 							btnTimKiem.setEnabled(true);
@@ -240,24 +262,7 @@ public class ClientUI extends JFrame {
 			}
 		});
 	}
-	public void DBName() {
-		try {
-			Connection connects = new com.huutrung.server.connectDB().connDB();
-			Statement stm = connects.createStatement();
-			String sql = "select * from DiemThi";
-			ResultSet rs = stm.executeQuery(sql);
-			while (rs.next()) {
-				String TenSV = rs.getString("TenSV");
-				name.add(TenSV);
-			}
-			rs.close();
-			stm.close();
-			connects.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	public void autoComplete(String txt) {
 		String complete="";
 		int start = txt.length();

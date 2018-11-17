@@ -15,6 +15,7 @@
 	%>
 	Welcome <%=userName%>!<br/>
 	You are living at <%=address%><br/>
-	Session temp <%=temp%>
+	Session temp <%=temp%><br/>
+	this is blog <%= config.getInitParameter("blog") %>
 </body>
 </html>
