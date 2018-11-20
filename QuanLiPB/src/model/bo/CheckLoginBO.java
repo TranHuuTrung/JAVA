@@ -7,6 +7,6 @@ public class CheckLoginBO {
 	}
 	public boolean CheckLogin(String email, String pass){
 		
-		return false;
+		return true;
 	}
 }

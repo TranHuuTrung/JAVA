@@ -4,6 +4,10 @@ body{
 .header{
 	background: #00fdfd;
 }
+.content{
+	padding-top: 10px;
+	padding-botom: 10px;
+}
 .content_header{
 	display: flex;
 	flex-direction: column;
@@ -28,6 +32,9 @@ body{
 .menu ul li a:hover, .menu ul li a:focus{
 	text-decoration: none;
 }
+.content_login{
+	margin-top: 50px;
+}
 .input_form{
 	margin: 10px;
 }
@@ -41,4 +48,45 @@ body{
 	bottom: 0;
 	left: 0;
 	right: 0;
+}
+.borderLeft{
+    border: 0px solid white;
+    height: 400px;
+    
+}
+ul.sidebar {
+	list-style: none;
+	padding-left: 0px;
+	
+}
+.borderLeft li {
+    display: block;
+    height: 30px;
+    background: white;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border: 1px solid white;
+    border-radius: 20px;
+    width: 100%;
+    vertical-align: middle;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+ul.sidebar li:hover{
+	background: #aaa;
+}
+ul.sidebar li a:hover, ul.sidebar li a:active{
+	text-decoration: none;
+}
+.widget {
+    background: #fff;
+    padding: 20px 15px 10px 15px;
+    box-shadow: 5px 10px 18px #888888;
+}
+.selectPB {
+    width: 200px;
+    margin: 10px;
+    height: 25px;
 }

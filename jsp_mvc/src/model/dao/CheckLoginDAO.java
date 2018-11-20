@@ -3,42 +3,39 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import com.mysql.jdbc.PreparedStatement;
 
-import library.DBConnect;
-import model.bean.Wife;
+import model.bean.User;
+import utils.DBConnect;
 
 public class CheckLoginDAO {
 	Connection connection;
-	public boolean isExistUser(String userName, String password) {
+	public User CheckExistUser(String userName, String passWord) {
 		//connect DB, write SQL statement
 		connection = DBConnect.getConnect();
-		String sql = "SELECT * FROM users WHERE userName=? AND password=?";
+		String sql = "SELECT * FROM users WHERE userName=? AND passWord=?";
 		PreparedStatement ps;
 		try {
 			ps = (PreparedStatement) connection.prepareStatement(sql);
 			ps.setString(1, userName);
-			ps.setString(2, password);
+			ps.setString(2, passWord);
 			ResultSet rs = ps.executeQuery();
-			if (rs.next() == false) {
-				return false;
+			if (rs.next()) {
+				User user = new User();
+				user.setId(rs.getLong("id"));
+				user.setUserName(rs.getString("userName"));
+				user.setPassWord(rs.getString("passWord"));
+				return user;
 			}
-			return true;
 		} catch (SQLException e) {
 			System.out.println("Loi truy van CSDL: "+ e);
 		}
-		return false;
+		return null;
 	}
-	public ArrayList<Wife> getWifeList(String userName){
-		ArrayList<Wife> result = new ArrayList<Wife>();
-		//connect DB, truy van csdl
-		Wife wife = new Wife();
-		wife.setName("Tran Huu Trung");
-		wife.setAddress("Da Nang");
-		wife.setAlive(true);
-		result.add(wife);
-		return result;
-	}
+//	public static void main(String[] args) {
+//		CheckLoginDAO aa = new CheckLoginDAO();
+//		User abb = aa.CheckExistUser("Huu Trung", "12345678");
+//		System.out.println(abb.getId());
+//	}
 }
