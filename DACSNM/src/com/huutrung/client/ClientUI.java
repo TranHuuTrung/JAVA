@@ -201,6 +201,9 @@ public class ClientUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				//xem tat ca danh sach
 				String traloi = null;
+				txtNhapMaSV.setText("");
+				txtNhapTenSV.setText("");
+				txtNhapDiem.setText("");
 				try {
 					traloi = connectToServer();
 				} catch (Exception e1) {

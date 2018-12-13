@@ -116,7 +116,12 @@ public class Client extends JFrame implements ActionListener{
 		btnExit.setBounds(220, 220, 80, 24);
 		btnExit.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        System.exit(0);
+		    	int ret = JOptionPane.showConfirmDialog(null, 
+						"Bạn có chắc chắn muốn thoát phần mềm không?",
+						"Xác nhận thoát", JOptionPane.YES_NO_OPTION);
+				if(ret == JOptionPane.YES_OPTION) {
+					System.exit(0);
+				}
 		    }
 		});
 		this.getContentPane().add(btnExit);
