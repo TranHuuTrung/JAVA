@@ -152,14 +152,18 @@ class ClientThreadHandler extends Thread {
 	public String searchData(String masv, String tensv, String diem) throws Exception {
 		ConnectData();
 		masv.trim();
-		tensv.trim().toString();
+		//tensv.trim().toString();
+		tensv.trim();
 		diem.trim();
-		sql = "SELECT * FROM `DiemThi` WHERE MaSV LIKE '%" + masv + "%' AND TenSV LIKE '%" + tensv + "%' AND Diem LIKE '%" + diem + "%'";
+		System.out.println(tensv);
+		//sql = "SELECT * FROM `DiemThi` WHERE MaSV LIKE '%" + masv + "%' AND TenSV LIKE '%" + tensv + "%' AND Diem LIKE '%" + diem + "%'";
+		sql = "SELECT * FROM `DiemThi` WHERE MaSV LIKE '%" + masv + "%' AND TenSV LIKE '%" + tensv + "%' AND Diem LIKE '%" + diem + "%';";
+		
 		System.out.println("SQL: " + sql);
 		rs = stm.executeQuery(sql);
-		if(!rs.next()) {
-			System.out.println("rs null");
-		}
+//		if(!rs.next()) {
+//			System.out.println("rs null");
+//		}
 		StringBuilder students = new StringBuilder();
 		while (rs.next()) {
 			String sCode = rs.getString("MaSV");
